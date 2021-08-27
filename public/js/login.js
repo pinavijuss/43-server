@@ -48,13 +48,17 @@ function submitFormInfo(e) {
 function responseAction(response) {
     try {
         const responseObject = JSON.parse(response);
+        if (responseObject.error) {
+            localStorage.removeItem('login-token');
+            showMessage('error', responseObject.error);
+        }
         localStorage.setItem('login-token', responseObject.token);
-        document.cookie = 'login-token=' + responseObject.token;
         showMessage('success', 'Token gautas ;)');
     } catch (error) {
         showMessage('error', 'Serverio klaida!');
     }
 }
+
 
 closeMessageDOM.addEventListener('click', closeMessage);
 
